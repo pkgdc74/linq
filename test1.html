@@ -25,9 +25,9 @@
         angular.module("app",[])
         .controller("con",function($scope){
             var data = [
-                { name: 'praveen', dob: new Date('4/11/1974'), age: 45, sex: "male" },
-                { name: 'meenu', dob: new Date('11/17/1976'), age: 43, sex: "female" },
-                { name: 'arya', dob: new Date('11/12/2007'), age: 11, sex: "female" }
+                { name: 'Rajeev', dob: new Date('8/1/1973'),  sex: "male" },
+                { name: 'Rajani', dob: new Date('8/1/1975'),  sex: "female" },
+                { name: 'Anna', dob: new Date('8/1/2007'),  sex: "female" }
             ]
             $scope.sql = "select name,sex,age from t1 where sex='female'"
             
