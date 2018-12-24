@@ -1,0 +1,71 @@
+<html>
+<head>
+    <title>test</title>
+    <style>
+        html,body *{font-family:Arial, Helvetica, sans-serif}
+        table{border-collapse: collapse;border:1px solid black;border-right:5px;margin-top: 5px;width: 100%;box-shadow: 5px 5px 10px silver;}
+        table>tbody>tr:nth-child(1){background: #009cda}
+        table>tbody>tr>th,table>tbody>tr>td{border-bottom: 1px solid silver}
+        th{text-transform:capitalize;padding: 3px}
+        td{padding:3px;text-align: center}
+        tr:hover{background:lemonchiffon;}
+    </style>
+</head>
+<body ng-app="app" ng-controller="con">
+    <textarea ng-model="sql" ng-model-options="{debounce:1000}" rows="15" cols="100"></textarea>
+    <table ng-if="data.length>0">
+        <tr><th ng-repeat="(k,v) in data[0]">{{::k}}</th></tr>
+        <tr ng-repeat="row in data">
+            <td ng-repeat="(k,v) in data[0]">{{::row[k]}}</td>
+        </tr>
+    </table>
+    <script type="text/javascript" src="angular.js"></script>
+    <script type="text/javascript" src="linq.js"></script>
+    <script type="text/javascript">
+        angular.module("app",[])
+        .controller("con",function($scope){
+            var data = [
+                { name: 'praveen', dob: new Date('4/11/1974'), age: 45, sex: "male" },
+                { name: 'meenu', dob: new Date('11/17/1976'), age: 43, sex: "female" },
+                { name: 'arya', dob: new Date('11/12/2007'), age: 11, sex: "female" }
+            ]
+            $scope.sql = "select name,sex,age from t1 where sex='female'"
+            
+            $scope.$watch("sql",function(){
+                $scope.data=linq.execute($scope.sql, data)
+            })
+
+        })
+        Array.join = function () {
+            var l = arguments.length, a = arguments;
+            if (l == 0) throw Error("no arrays to join")
+            if (l == 1) return a[0].slice()
+            for (var i = 0; i < l; ++i)
+                if ("[object Array]" != {}.toString.call(a[i]))
+                    throw Error("all parameters must be array")
+            var join = function (arrs, i, row, table) {
+                if (i == 0) row = []
+                if (i == arrs.length - 1)
+                    for (var x = 0; x < arrs[i].length; x++) {
+                        table.push([].concat(row, arrs[i][x]))
+                    }
+                if (i < arrs.length - 1)
+                    for (var x = 0; x < arrs[i].length; x++) {
+                        join(arrs, i + 1, [].concat(row, arrs[i][x]), table)
+                    }
+            }
+            var result = []
+            join(a, 0, [], result)
+            return result
+        };
+        var decimalToSuff = function (num) {
+            var val = "", i = num;
+            do {
+                val = (String.fromCharCode(65 + (i % 26))) + val;
+            } while ((i = parseInt(i / 26, 10)) > 0);
+            return val
+        }
+        
+    </script>
+</body>
+</html>
