@@ -1,1 +1,1 @@
-Linq project is to added SQL like feature to javascript arrays.
+Linq is an simple experiment where I added SQL engine on top of javascript Array. So a user can run queries like linq.execute("select name,sex,age from t1 where sex='female'", data) where data is an Array or objects. 
